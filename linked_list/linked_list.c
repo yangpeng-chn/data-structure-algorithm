@@ -7,7 +7,6 @@ struct node
 	struct node *next;
 };
 
-
 void printList(struct node* list){
 	while(list != NULL){
 		printf("%d ", list->data);
@@ -16,65 +15,111 @@ void printList(struct node* list){
 	printf("\n");
 }
 
+void reversePrintList(struct node* list){
+	if (list == NULL){
+		return;
+	}
+	reversePrintList(list->next);
+	printf("%d ", list->data);
+}
+
+//can also use stack to do reverse print, below is Pseudocode
+void reversePrintListByStack(struct node* list){
+	// while(list != null){
+	// 	stack.push(list->data);
+	// 	list = list->next;
+	// }
+	// while(stack.isEmpty() != true){
+	// 	stack.pop();
+	// }
+}
+
 void printListAddress(struct node* list){
 	while(list != NULL){
 		printf("%p ", list);
 		list = list->next;
 	}
-	printf("\n");
+	printf("\n\n");
 }
 
-void addNodeAtFront(struct node** list, int new){ //if use node*, the address of list cannot be changed. the insertion will fail.
-	struct node* front = NULL;
-	front = (struct node*)malloc(sizeof(struct node));
-	front->data = new;
-	front->next = *list;
+//4 steps O(1)
+void addNodeAtFront(struct node** head_ref, int new_data){ //if use node*, the address of list cannot be changed. the insertion will fail.
+	printf("%s%d\n", "Entered addNodeAtFront, data: ", new_data);
+	struct node* front = (struct node*)malloc(sizeof(struct node));
+	front->data = new_data;
+	front->next = *head_ref;
+	*head_ref = front;
+	// head_ref = &front; //cannot use this one
+}
+
+//5 steps O(n)
+void addNodeAtEnd(struct node** head_ref, int new_data)
+{
+	printf("%s%d\n", "Entered addNodeAtEnd, data: ", new_data);
+	/* 1. allocate node */
+	struct node* new_node = (struct node*) malloc(sizeof(struct node));
 	
-	*list = front;
-
-	// list = &front; //cannot use this one
-}
-
-void addNodeAtEnd(struct node* list, int new){ 
-	struct node* new_node = NULL;
-	new_node = (struct node*)malloc(sizeof(struct node));
-	new_node->data = new;
+	/* 2. put in the data  */
+	new_node->data  = new_data;
+	
+	/* 3. This new node is going to be the last node, so make next 
+	      of it as NULL*/
 	new_node->next = NULL;
-	while(list->next != NULL){
-		list = list->next;
-	}
-
-	list->next = new_node;
+	
+	/* 4. If the Linked List is empty, then make the new node as head */
+	if (*head_ref == NULL){
+		*head_ref = new_node;
+		return;
+	}  
+	  
+	struct node *last = *head_ref;
+	/* 5. Else traverse till the last node */
+	while (last->next != NULL)
+		last = last->next;
+	
+	/* 6. Change the next of last node */
+	last->next = new_node;
 }
 
-void addNodeAtnPosition(struct node* list, int new, int pos){
-	if (pos < 1){
-		printf("%s\n", "pos must be greater than 0");
+//pos starts from 0, if pos == 0, use addNodeAtFront func, O(n)
+void addNodeAtnPosition(struct node** head_ref, int new_data, int pos){ //e.g: 123, data: 5, pos: 2, result:1253
+	printf("Entered addNodeAtnPosition, pos:%d, data:%d\n", pos, new_data);
+	if (pos < 0){
+		printf("%s\n", "pos can not be negative");
 		return;
 	}
-	struct node* new_node = NULL;
-	new_node = (struct node*)malloc(sizeof(struct node));
-	new_node->data = new;
-	int idx = 0;
-	while(list != NULL){
-		if(++idx == pos){ //from 1
-			new_node->next = list->next;
-			list->next = new_node;
-			return;
-		}
-		list = list->next;
+
+	if (pos == 0){
+		addNodeAtFront(head_ref, new_data);
+		return;
 	}
-	printf("%s\n", "pos must be smaller or equal to length of list"); //len3 -> 3ok, 4bad
+
+	struct node* new_node = (struct node*)malloc(sizeof(struct node));
+	new_node->data = new_data;
+
+	struct node *prev = *head_ref;
+	int idx = 0;
+	while(prev != NULL && ++idx != pos){
+		prev = prev->next;
+	}
+
+	if (prev == NULL){
+		printf("%s\n", "pos must be smaller or equal to length of list"); //len3 -> 3ok, 4bad
+		return;
+	}
+
+	new_node->next = prev->next;
+	prev->next = new_node;
 }
 
-void deleteNode(struct node** list, int key){
-	struct node* tmp = *list, *prev;
-	//struct node *temp=*head_ref;
-	//struct node *prev;
+// O(n)
+void deleteNodeByKey(struct node** head_ref, int key){
+	printf("%s%d\n", "Entered deleteNodeByKey, key:", key);
 
-	if ( tmp != NULL && tmp->data == key) //head is the key
-	{
-		*list = tmp->next; //change head
+	struct node* tmp = *head_ref, *prev;
+
+	if ( tmp != NULL && tmp->data == key) {//head is the key
+		*head_ref = tmp->next; //change head
 		free(tmp);
 		return;
 	}
@@ -84,23 +129,29 @@ void deleteNode(struct node** list, int key){
 		tmp = tmp->next;
 	}
 
-	if (tmp == NULL)
+	if (tmp == NULL){
+		printf("%s\n", "key not found");
 		return;
+	}
 
 	prev->next = tmp->next;
 	free(tmp);
 }
 
-void deleteNPosNode(struct node** list, int pos){
-	struct node* tmp = *list, *prev;
+//pos starts from 0, O(n)
+void deleteNodeByPos(struct node** head_ref, int pos){ //e.g: 123, pos: 1, result:13
+	printf("%s%d\n", "Entered deleteNodeByPos, pos:", pos);
+
+	struct node* tmp = *head_ref;
+	struct node* prev = *head_ref;
 	if(tmp != NULL && pos == 0){
-		*list = tmp->next;
+		*head_ref = tmp->next;
 		free(tmp);
 		return;
 	}
 
 	int idx = 0;
-	while (++idx != pos && tmp != NULL){ //1 to n 123 ->(0,1,2)
+	while (idx++ != pos && tmp != NULL){ //set the node that will be deleted as tmp, idx starts from 0
 		prev = tmp;
 		tmp = tmp->next;
 	}
@@ -111,10 +162,7 @@ void deleteNPosNode(struct node** list, int pos){
 	}
 
 	prev->next = tmp->next;
-}
-
-void reversePrintList(struct node* list){
-	
+	free(tmp);
 }
 
 int main()
@@ -127,7 +175,6 @@ int main()
 	second = (struct node*)malloc(sizeof(struct node));
 	third = (struct node*)malloc(sizeof(struct node));
  	
- 	int a = 5;
 	head->data = 1;
 	head->next = second;
 	second->data = 2;
@@ -137,24 +184,51 @@ int main()
 
 	printList(head);
 	printListAddress(head);
+
 	addNodeAtFront(&head, 0);
 	printList(head);
 	printListAddress(head);
 
-	addNodeAtEnd(head, 4);
+	addNodeAtEnd(&head, 4);
 	printList(head);
 	printListAddress(head);
 
-	addNodeAtnPosition(head, 10, 2);
+	addNodeAtnPosition(&head, 10, 0); //front
 	printList(head);
 	printListAddress(head);
 
-	deleteNode(&head, 10);
+	addNodeAtnPosition(&head, 5, 2); //middle
 	printList(head);
 	printListAddress(head);
 
-	deleteNPosNode(&head, 5);
+	addNodeAtnPosition(&head, 6, 7); //end
 	printList(head);
 	printListAddress(head);
+
+	addNodeAtnPosition(&head, 6, 9); //out of range
+	printList(head);
+	printListAddress(head);
+
+	deleteNodeByKey(&head, 10);
+	printList(head);
+	printListAddress(head);
+
+	deleteNodeByPos(&head, 0); //front
+	printList(head);
+	printListAddress(head);
+
+	deleteNodeByPos(&head, 2); //middle
+	printList(head);
+	printListAddress(head);
+
+	deleteNodeByPos(&head, 4); //end
+	printList(head);
+	printListAddress(head);
+
+	deleteNodeByPos(&head, 4); //out of range
+	printList(head);
+	printListAddress(head);
+
+	reversePrintList(head);
 	return 0;
 }
