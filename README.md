@@ -1,5 +1,12 @@
 # data-structure-algorithm
 
+#### How to run code
+
+```
+gcc <filename>
+./a.out
+```
+
 ##Data Structure
 
 ####Linked List
