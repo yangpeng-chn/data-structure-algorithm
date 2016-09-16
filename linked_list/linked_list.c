@@ -63,7 +63,7 @@ void addNodeAtEnd(struct node** head_ref, int new_data)
 	new_node->data  = new_data;
 	
 	/* 3. This new node is going to be the last node, so make next 
-	      of it as NULL*/
+		  of it as NULL*/
 	new_node->next = NULL;
 	
 	/* 4. If the Linked List is empty, then make the new node as head */
@@ -116,7 +116,7 @@ void addNodeAtnPosition(struct node** head_ref, int new_data, int pos){ //e.g: 1
 void deleteNodeByKey(struct node** head_ref, int key){
 	printf("%s%d\n", "Entered deleteNodeByKey, key:", key);
 
-	struct node* tmp = *head_ref, *prev;
+	struct node* tmp = *head_ref, *prev; //prev is NULL
 
 	if ( tmp != NULL && tmp->data == key) {//head is the key
 		*head_ref = tmp->next; //change head
@@ -142,27 +142,51 @@ void deleteNodeByKey(struct node** head_ref, int key){
 void deleteNodeByPos(struct node** head_ref, int pos){ //e.g: 123, pos: 1, result:13
 	printf("%s%d\n", "Entered deleteNodeByPos, pos:", pos);
 
-	struct node* tmp = *head_ref;
-	struct node* prev = *head_ref;
-	if(tmp != NULL && pos == 0){
-		*head_ref = tmp->next;
-		free(tmp);
+	// If linked list is empty
+	if (*head_ref == NULL)
+		return;
+
+   	// Store head node
+	struct node* temp = *head_ref;
+
+	// If head needs to be removed
+	if (pos == 0){
+		*head_ref = temp->next;   // Change head
+		free(temp);               // free old head
 		return;
 	}
 
-	int idx = 0;
-	while (idx++ != pos && tmp != NULL){ //set the node that will be deleted as tmp, idx starts from 0
-		prev = tmp;
-		tmp = tmp->next;
-	}
+	// Find previous node of the node to be deleted
+	for (int i=0; temp!=NULL && i<pos-1; i++)
+		 temp = temp->next;
 
-	if (tmp == NULL){
-		printf("%s\n", "pos out of range");
+	// If position is more than number of nodes, Node temp->next is the node to be deleted
+	if (temp == NULL || temp->next == NULL){
+		printf("%s\n", "Out of range");
 		return;
 	}
 
-	prev->next = tmp->next;
-	free(tmp);
+	// Store pointer to the next of node to be deleted
+	struct node *next = temp->next->next;
+	free(temp->next);
+	temp->next = next;
+}
+
+//O(n)
+int getCount(struct node* list){
+	int count = 0;
+	while (list != NULL){
+		count ++;
+		list = list->next;
+	}
+	return count;
+}
+
+//O(n) slower than getCount
+int getCountUsingRecursion(struct node* list){
+	if (list == NULL)
+		return 0;
+	return 1 + getCountUsingRecursion(list->next);
 }
 
 int main()
@@ -174,7 +198,7 @@ int main()
 	head = (struct node*)malloc(sizeof(struct node));
 	second = (struct node*)malloc(sizeof(struct node));
 	third = (struct node*)malloc(sizeof(struct node));
- 	
+	
 	head->data = 1;
 	head->next = second;
 	second->data = 2;
@@ -230,6 +254,9 @@ int main()
 	printListAddress(head);
 
 	reversePrintList(head);
+
+	printf("The length of Linked list is: %d\n", getCount(head));
+	printf("The length of Linked list is: %d\n", getCountUsingRecursion(head));
 	return 0;
 }
 
