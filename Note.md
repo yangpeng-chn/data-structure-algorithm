@@ -1,5 +1,4 @@
-#Linked list
-*****
+# Linked list
 
 #### Linked list provides following two advantages over arrays
 
@@ -17,8 +16,8 @@
 ```
 struct node 
 {
-  int data;
-  struct node *next;
+    int data;
+    struct node *next;
 };
 ```
 
@@ -42,7 +41,6 @@ currentY->next = currentX->next (4's next = 3)
 1 4 3 2 ...
 currentX->next = tmp (2's next = 5)
 1 4 3 2 5
-
 ```
 	
 #### Conclusion
