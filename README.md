@@ -7,30 +7,30 @@ gcc <filename>
 ./a.out
 ```
 
-##Data Structure
+## Data Structure
 
-####Linked List
+#### Linked List
 
-####Stack
+#### Stack
 
-####Queue
+#### Queue
 
-####Binary Tree
+#### Binary Tree
 
-####Binary Search Tree
+#### Binary Search Tree
 
-####Heap
+#### Heap
 
-####Hashing
+#### Hashing
 
-####Graph
+#### Graph
 
-####Advanced Data Structure
+#### Advanced Data Structure
 
-####Array
+#### Array
 
-####Matrix
+#### Matrix
 
-####Misc
+#### Misc
 
-##Algorithm
+## Algorithm
