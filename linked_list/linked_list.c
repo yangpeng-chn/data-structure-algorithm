@@ -335,6 +335,27 @@ void deleteList(struct node** head_ref){
     *head_ref = NULL; //this line is needed
 }
 
+//Time Complexity: O(n)
+//Auxiliary Space: O(1)
+int countOccurrence(struct node* head, int search_for)
+{
+    int count = 0;
+    struct node* current = head;
+    while(current != NULL){
+        if(current->data == search_for)
+            count++;
+        current = current->next;
+    }
+    return count;
+}
+
+void reverseLinkedlist(struct node** head_ref){
+    struct node* current = *head_ref;
+    if(current == NULL)
+        return;
+
+}
+
 int main()
 {
     struct node* head = NULL;
@@ -410,6 +431,7 @@ int main()
     printNthFromLast2(head, 5);
     printNthFromLast2(empty, 0);
 
+    printf("The occrurrence of %d is %d\n", 1, countOccurrence(head, 1));
     printf("The length of Linked list is: %d\n", getCount(head));
     printf("The length of Linked list is: %d\n", getCountUsingRecursion(head));
     printf("The 3th of Linked list is: %d\n", getNth(head, 3));
