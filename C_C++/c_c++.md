@@ -5,6 +5,7 @@
 ### 1.1 Pointer of Pointer
 ![Pointer1][1]
 ![Pointer2][2]
+![Pointer3][3]
 
 ### 1.2 Pointer and arrays
 
@@ -84,7 +85,7 @@ int len = strlen(C); //4, size is 5
 char *C = "John"; // a null will be added after 'n' implicitly
 ```
 
-**Aarry and pointer**
+### 1.6 Aarry and pointer
 
 ```
 char C1[5] = "John";
@@ -94,7 +95,58 @@ C1 = C1 + 1; //NG
 C2++; //OK
 C2[i] is *(C2 + i)
 C1[i] is *(C1 + i)
+
+char C[20] = "hello"; //string gets stored in the space for array
+C[0] = 'A'; //OK
+C++; //NG
+
+char *C = "hello"; //string gets stored as compile time constant
+C[0] = 'A'; //NG
+C++; //OK
+```
+
+### 1.7 Pointers and 2-D arrays
+
+```
+int B[2][3];
+B[0] and B[1] are 1-D arrays of 3 integers.
+
+int A[5];
+int *p = A;
+
+//Output of below are the same
+Print B; //a pointer to 1-D array of 3
+Print *B; //a pointer to an integer, p
+Print B[0]; //Address of first integer, A
+Print &B[0][0] //Address of first integer, &A[0]
+
+int *p = B; //NG, as B will return a pointer to 1-D array of 3 integers.
+int (*p)[3] = B; //OK
+
+for 2-D array,
+B[i][j] = *(B[i]+j)
+		 = *(*(B + i)+j)
+
+```
+
+### 1.8 Pointers and dynamic memory
+
+**C**
+
+```
+malloc  //int *p = (int *)malloc(sizeof(int));
+calloc
+realloc
+free  //free(p)
+```
+
+**C++**
+
+```
+new //int *p = new int;  int *p = new int[20];
+delete //delete p; delete []p;
 ```
 
 [1]: /Users/yangpeng/gitRepositories/data-structure-algorithm/C_C++/images/pointer1.png
 [2]: /Users/yangpeng/gitRepositories/data-structure-algorithm/C_C++/images/pointer2.png
+[3]: /Users/yangpeng/gitRepositories/data-structure-algorithm/C_C++/images/pointer3.png
