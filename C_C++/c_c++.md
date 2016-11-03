@@ -6,6 +6,8 @@
 ![Pointer1][1]
 ![Pointer2][2]
 ![Pointer3][3]
+![Pointer4][4]
+
 
 ### 1.2 Pointer and arrays
 
@@ -147,6 +149,19 @@ new //int *p = new int;  int *p = new int[20];
 delete //delete p; delete []p;
 ```
 
+### 1.9 Function Pointers
+
+```
+int Add(int a, int b){
+	return a+b
+}
+
+int (*p)(int,int); //cannot be *p
+p = &Add;
+printf("%d", (*p)(3, 2));
+```
+
 [1]: /Users/yangpeng/gitRepositories/data-structure-algorithm/C_C++/images/pointer1.png
 [2]: /Users/yangpeng/gitRepositories/data-structure-algorithm/C_C++/images/pointer2.png
 [3]: /Users/yangpeng/gitRepositories/data-structure-algorithm/C_C++/images/pointer3.png
+[4]: /Users/yangpeng/gitRepositories/data-structure-algorithm/C_C++/images/pointer4.png
