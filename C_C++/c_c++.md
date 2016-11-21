@@ -150,7 +150,6 @@ delete //delete p; delete []p;
 ```
 
 ### 1.9 Function Pointers
-
 ```
 int Add(int a, int b){
 	return a+b
@@ -159,6 +158,91 @@ int Add(int a, int b){
 int (*p)(int,int); //cannot be *p
 p = &Add;
 printf("%d", (*p)(3, 2));
+```
+
+### 1.10 Const Qualifier in C
+**Pointer to constant**
+We can change pointer to point to any other integer variable, but cannot change value of object (entity) pointed using pointer ptr.
+
+```
+const int *ptr;
+or
+int const *ptr;
+```
+
+**Constant pointer to variable**
+we can change value of object pointed by pointer, but cannot change the pointer to point another variable.
+
+```
+int *const ptr;
+```
+
+**constant pointer to constant**
+
+```
+const int *const ptr;
+```
+
+### 1.11 Storage Classes and Type Qualifiers
+
+<http://quiz.geeksforgeeks.org/c-language-2/storage-classes/>
+
+**Static storage** can be used as 	`Global variable`, `Function name` and `Local variable`, cannot be used as `Function parameter`.
+
+>Declaring a global variable as static limits its scope to the same file in which it is defined. A static function is only accessible to the same file in which it is defined. A local variable declared as static preserves the value of the variable between the function calls
+
+### 1.12 When do we pass arguments by reference or pointer?
+<http://www.geeksforgeeks.org/when-do-we-pass-arguments-by-reference-or-pointer/>
+
+In C++, variables are passed by reference due to following reasons:
+
+- To modify local variables of the caller function
+- For passing large sized arguments
+- **To avoid Object Slicing**
+- To achieve Run Time Polymorphism in a function
+
+### 1.13 Function overloading and const keyword
+<http://www.geeksforgeeks.org/function-overloading-and-const-functions/>
+
+>C++ allows functions to be overloaded on the basis of const-ness of parameters only if the const parameter is a reference or a pointer.
+
+### 1.14 Inline Functions in C++
+<http://quiz.geeksforgeeks.org/inline-functions-cpp/>
+>Remember, inlining is only a request to the compiler, not a command. Compiler can ignore the request for inlining. Compiler may not perform inlining in such circumstances like ...
+
+- Inline functions provide following advantages:
+- Inline function disadvantages:
+
+### 1.15 Basic Concepts of Object Oriented Programming using C++
+<http://quiz.geeksforgeeks.org/basic-concepts-of-object-oriented-programming-using-c/>
+
+- Encapsulation and Data abstraction
+- Inheritance
+- Polymorphism
+- Dynamic Binding
+- Message Passing
+
+>Overloading doesn’t work for derived class in C++ programming language. There is no overload resolution between Base and Derived
+
+### 1.16 Copy Constructor in C++
+<http://quiz.geeksforgeeks.org/copy-constructor-in-cpp/>
+
+**When is copy constructor called?**
+> In C++, a Copy Constructor may be called in following cases:
+>
+1. When an object of the class is returned by value.
+2. When an object of the class is passed (to a function) by value as an argument.
+3. When an object is constructed based on another object of the same class.
+4. When compiler generates a temporary object.
+It is however, not guaranteed that a copy constructor will be called in all these cases, because the C++ Standard allows the compiler to optimize the copy away in certain cases
+
+## 2. Mathematics
+
+### 2.1 Prime number
+
+```
+1 -> {1} -> no
+2 -> {1,2} -> yes
 ```
 
 [1]: /Users/yangpeng/gitRepositories/data-structure-algorithm/C_C++/images/pointer1.png
