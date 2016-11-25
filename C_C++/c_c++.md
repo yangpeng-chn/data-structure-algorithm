@@ -11,22 +11,22 @@
 
 ### 1.2 Pointer and arrays
 
-```
+```c++
 int A[5];
 ```
 
-1. **Element at index i, e.g**
+**Element at index i, e.g**
 
-	```
-	Address: &A[i] or (A+i)
-	Value: A[i] or *(A+i)
-	```
-2. **Size of Array**
+```c++
+Address: &A[i] or (A+i)
+Value: A[i] or *(A+i)
+```
+**Size of Array**
 
-	```
-	int A[] = {1,2,3,4,5};
-	int size = sizeof(A) / sizeof(A[0]); // 20/4 = 5
-	```
+```c++
+int A[] = {1,2,3,4,5};
+int size = sizeof(A) / sizeof(A[0]); // 20/4 = 5
+```
 
 ### 1.3 Application's memory
 
@@ -37,7 +37,7 @@ int A[5];
 
 ### 1.4 Arrays as function arguments
 
-```
+```c++
 int SumofEle(int A[]){ //same as int* A, call by ref, so can change the value of A in the calling func.
 	int size = sizeof(A) / sizeof(A[0]); // 4/4 = 0, thus need to pass the size of array as argument
 }
@@ -61,7 +61,7 @@ int main(){
 
 [char * a = "" and char b[] = ""](http://ja.stackoverflow.com/questions/14553/char-a-%E3%81%A8-char-b-%E3%81%AB%E3%81%AF%E3%81%A9%E3%81%AE%E3%82%88%E3%81%86%E3%81%AA%E9%81%95%E3%81%84%E3%81%8C%E3%81%82%E3%82%8A%E3%81%BE%E3%81%99%E3%81%8B)
 
-```
+```c++
 //case 1
 char C[5];
 C[0] = 'J';
@@ -89,7 +89,7 @@ char *C = "John"; // a null will be added after 'n' implicitly
 
 ### 1.6 Aarry and pointer
 
-```
+```c++
 char C1[5] = "John";
 char * C2 = C1; //OK, C2 stores the address of 1st element in C1.
 C1 = C2; //NG
@@ -109,7 +109,7 @@ C++; //OK
 
 ### 1.7 Pointers and 2-D arrays
 
-```
+```c++
 int B[2][3];
 B[0] and B[1] are 1-D arrays of 3 integers.
 
@@ -135,7 +135,7 @@ B[i][j] = *(B[i]+j)
 
 **C**
 
-```
+```c++
 malloc  //int *p = (int *)malloc(sizeof(int));
 calloc
 realloc
@@ -144,13 +144,13 @@ free  //free(p)
 
 **C++**
 
-```
+```c++
 new //int *p = new int;  int *p = new int[20];
 delete //delete p; delete []p;
 ```
 
 ### 1.9 Function Pointers
-```
+```c++
 int Add(int a, int b){
 	return a+b
 }
@@ -164,7 +164,7 @@ printf("%d", (*p)(3, 2));
 **Pointer to constant**
 We can change pointer to point to any other integer variable, but cannot change value of object (entity) pointed using pointer ptr.
 
-```
+```c++
 const int *ptr;
 or
 int const *ptr;
@@ -173,13 +173,13 @@ int const *ptr;
 **Constant pointer to variable**
 we can change value of object pointed by pointer, but cannot change the pointer to point another variable.
 
-```
+```c++
 int *const ptr;
 ```
 
 **constant pointer to constant**
 
-```
+```c++
 const int *const ptr;
 ```
 
@@ -235,6 +235,91 @@ In C++, variables are passed by reference due to following reasons:
 3. When an object is constructed based on another object of the same class.
 4. When compiler generates a temporary object.
 It is however, not guaranteed that a copy constructor will be called in all these cases, because the C++ Standard allows the compiler to optimize the copy away in certain cases
+
+### 1.17 When do we use Initializer List in C++?++
+<http://www.geeksforgeeks.org/when-do-we-use-initializer-list-in-c/>
+
+there are situations where initialization of data members inside constructor doesn’t work and Initializer List must be used. Following are such cases:
+
+1. For initialization of non-static const data members
+2. For initialization of reference members
+3. For initialization of member objects which do not have default constructor
+4. For initialization of base class members
+5. When constructor’s parameter name is same as data member (this pointer is also ok)
+6. For Performance reasons
+
+### 1.18 Is it possible to call constructor and destructor explicitly?
+<http://www.geeksforgeeks.org/possible-call-constructor-destructor-explicitly/>
+
+>Yes. When the constructor is called explicitly the compiler creates a nameless temporary object and it is immediately destroyed
+
+### 1.19 Private destructor
+<http://www.geeksforgeeks.org/private-destructor/>
+
+### 1.20 When does compiler create default and copy constructors in C++?
+<http://www.geeksforgeeks.org/does-compiler-always-create-a-copy-constructor/>
+
+>In C++, compiler creates a default constructor if we don’t define our own constructor (See this). Compiler created default constructor has empty body, i.e., it doesn’t assign default values to data members (In java, default constructors assign default values).
+
+>Compiler also creates a copy constructor if we don’t write our own copy constructor. Unlike default constructor, body of compiler created copy constructor is not empty, it copies all data members of passed object to the object which is being created.
+
+>Compiler doesn’t create a default constructor if we write any constructor even if it is copy constructor. Compiler creates a copy constructor if we don’t write our own. Compiler creates it even if we have written other constructors in class.
+
+>**So we need to write copy constructor only when we have pointers or run time allocation of resource like file handle, a network connection, etc**
+
+### 1.21 Why copy constructor argument should be const in C++?
+<http://www.geeksforgeeks.org/copy-constructor-argument-const/>
+
+1. One reason for passing const reference is, we should use const in C++ wherever possible so that objects are not accidentally modified
+2. compiler created temporary objects cannot be bound to non-const references and the original program tries to do that. It doesn’t make sense to modify compiler created temporary objects as they can die any moment.
+
+### 1.22 Multiple Inheritance in C++
+<http://www.geeksforgeeks.org/multiple-inheritance-in-c/>
+
+### 1.23 Virtual Destructor
+<http://www.geeksforgeeks.org/g-fact-37/>
+
+>Deleting a derived class object using a pointer to a base class that has a non-virtual destructor results in undefined behavior. To correct this situation, the base class should be defined with a virtual destructor
+
+>As a guideline, any time you have a virtual function in a class, you should immediately add a virtual destructor (even if it does nothing)
+
+### 1.24 Advanced C++ | Virtual Copy Constructor
+<http://www.geeksforgeeks.org/advanced-c-virtual-copy-constructor/>
+
+### 1.25 Operator Overloading in C++
+<http://quiz.geeksforgeeks.org/operator-overloading-c/>
+
+```c++
+// The global operator function is made friend of this class so
+// that it can access private members (in class)
+friend Complex operator + (Complex const &, Complex const &);
+
+// return type: Complex, operand: c1, c2
+Complex operator + (Complex const &c1, Complex const &c2)
+{
+     return Complex(c1.real + c2.real, c1.imag + c2.imag);
+}
+Complex c3 = c1 + c2;
+```
+
+### 1.26 Use of explicit keyword in C++
+<http://www.geeksforgeeks.org/g-fact-93/>
+>In C++, if a class has a constructor which can be called with a single argument, then this constructor becomes conversion constructor because such a constructor allows conversion of the single argument to the class being constructed
+
+### 1.27 Default Assignment Operator and References
+<http://www.geeksforgeeks.org/default-assignment-operator-and-references/>
+
+Compiler doesn’t creates default assignment operator in following cases
+
+1. Class has a nonstatic data member of a const type or a reference type
+2. Class has a nonstatic data member of a type which has an inaccessible copy assignment operator
+3. Class is derived from a base class with an inaccessible copy assignment operator
+
+### 1.28 Smart Pointers in C++
+<http://www.geeksforgeeks.org/smart-pointers-cpp/>
+
+### 1.29 Overloading stream insertion (<<) and extraction (>>) operators in C++
+<http://quiz.geeksforgeeks.org/overloading-stream-insertion-operators-c/>
 
 ## 2. Mathematics
 
