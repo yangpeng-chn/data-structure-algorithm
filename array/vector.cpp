@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include <string>
-#include <vector>
 using namespace std;
 
 template <class T>
@@ -22,14 +21,16 @@ public:
 	size_t size() const;
 	size_t capacity() const;
 	bool is_empty() const;
-	T &at(size_t idx);
+	T & at(size_t idx);
 	void push(T val);
-	void insert(size_t index, T val);
+	void insert(size_t idx, T val);
 	void prepend(T val);
 	void Delete(size_t idx);
 	void remove(T val);
 	T pop();
 	int find(T val);
+	T & operator[](size_t idx);
+	CVector<T> & operator=(const CVector<T> &);
 	void print();
 };
 
@@ -47,13 +48,18 @@ CVector<T>::CVector(size_t size){
 	mp_data = new T[size];
 }
 
-// template<>
-// CVector<int>::CVector(size_t size){
-// 	cout << "in";
-// 	m_size = size;
-// 	m_capacity = size;
-// 	mp_data = new int[size];
-// }
+template<>
+CVector<int>::CVector(size_t size){
+	cout << "in";
+	m_size = size;
+	m_capacity = size;
+	mp_data = new int[size];
+	for (int i = 0; i < m_size; ++i)
+	{
+		mp_data[i] = 0; //or
+		//*(mp_data + i) = 0
+	}
+}
 
 
 template <class T>
@@ -201,6 +207,28 @@ int CVector<T>::find(T val){
 	return -1;
 }
 
+template<class T>
+T & CVector<T>::operator[](size_t idx){
+	if (idx >= m_size)
+	{
+		cout << "Out of range" << endl;
+		exit(-1);
+	}
+	return mp_data[idx];
+}
+
+template<class T>
+CVector<T> & CVector<T>::operator = (const CVector<T> & obj)
+{
+    delete[] mp_data;
+    m_size = obj.m_size;
+    m_capacity = obj.m_capacity;
+    mp_data = new T [m_size];
+    for (size_t i = 0; i < m_size; i++)
+        mp_data[i] = obj.mp_data[i];
+    return *this;
+}
+
 template <class T>
 void CVector<T>::print(){
 	for (int i = 0; i < m_size; ++i)
@@ -215,14 +243,13 @@ int main(){
 	cout << "size:" << vec.size() << endl;
 	cout << "capacity:" << vec.capacity() << endl;
 	cout << "at(5):" << vec.at(5) << endl;
+	cout << "[5]:" << vec[5] << endl;
 	cout << "find 1, idx:" << vec.find(1) << endl;
+	CVector<int> vec1;
+	vec1 = vec;
+	vec1.print();
 	vec.Delete(3);
 	vec.remove(0);
 	vec.print();
 	vec.pop();
-
-	// vec.push(10);
-	// cout << vec.is_empty() << endl;
-	// vec.at(0) = 20;
-	// cout << vec.at(0) << endl;
 }
