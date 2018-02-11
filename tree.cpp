@@ -6,11 +6,11 @@ using namespace std;
 struct Node
 {
     int data;
-    struct Node* left;
-    struct Node* right;
+    Node* left;
+    Node* right;
 };
 
-struct Node* newNode(int value){
+Node* newNode(int value){
 	node *n = new Node;
     n->left = n->right = NULL;
     n->data = value;
@@ -29,6 +29,7 @@ Node * insert(Node * root, int value) {
 }
 
 // Insert node to BST
+// https://www.geeksforgeeks.org/binary-search-tree-set-1-search-and-insertion/
 Node * insert(Node * root, int value) {
 	Node *newNode = new node;
     newNode->data = value;
@@ -56,8 +57,39 @@ Node * insert(Node * root, int value) {
     return root;
 }
 
+Node * insert1(Node * root, int value) {
+{
+    if(root == NULL) {
+        Node *newNode =  new Node;
+        newNode->left = newNode->right = NULL;
+        newNode->data = data;
+        return newNode;
+    }
+    if(data > root->data){
+        root->right = insert(root->right, data);
+    }else if (data < root->data){
+        root->left = insert(root->left, data);
+    }
+    return root;
+}
+
+//https://www.geeksforgeeks.org/print-left-view-binary-tree/
+void leftViewHelper(Node *root, int level, int *maxLevel){
+    if (root == NULL) return;
+    if (level > *maxLevel){
+        cout << root->data << " ";
+        *maxLevel = level;
+    }
+    leftViewHelper(root->left, level+1, maxLevel);
+    leftViewHelper(root->right, level+1, maxLevel);
+}
+void leftView(Node *root)
+{
+    int maxLevel = 0;
+    leftViewHelper(root, 1, &maxLevel);
+}
+
+
 int main(){
-	
-	
 	return 0;
 }

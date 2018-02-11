@@ -111,6 +111,97 @@ void merge(struct Node *p, struct Node **q){
 	*q=currentQ;
 }
 
+//P5
+//https://practice.geeksforgeeks.org/problems/finding-middle-element-in-a-linked-list/1
+//https://www.geeksforgeeks.org/write-a-c-function-to-print-the-middle-of-the-linked-list/
+int getMiddle(Node *head)
+{
+    if (head == NULL) return -1;
+    Node *slowP = head;
+    Node *fastP = head;
+    while (fastP != NULL && fastP->next != NULL){
+        slowP = slowP->next;
+        fastP = fastP->next->next;
+    }
+    return slowP->data;
+}
+
+//P6
+//https://www.geeksforgeeks.org/reverse-a-linked-list/
+//https://practice.geeksforgeeks.org/problems/reverse-a-linked-list/1/?ref=self
+Node* reverse(Node *head)
+{
+    Node *prev = NULL;
+    Node *current=head;
+    Node *next;
+    while(current != NULL){
+        next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
+    }
+    head = prev;
+    return head;
+  // Your code here
+}
+
+//P7
+//https://practice.geeksforgeeks.org/problems/detect-loop-in-linked-list/1/?ref=self
+//https://www.geeksforgeeks.org/detect-loop-in-a-linked-list/
+int detectloop(Node *list)
+{
+    Node *slow = list, *fast = list;
+    while (slow != NULL && fast != NULL && fast->next !=NULL){
+        slow = slow->next;
+        fast = fast->next->next;
+        if(slow == fast){
+            return 1;
+        }
+    }
+    return 0;
+   // your code here
+}
+
+//P8
+//https://practice.geeksforgeeks.org/problems/remove-loop-in-linked-list/1/?ref=self
+void removeTheLoop(Node *node)
+{
+    Node *slow = node, *fast = node, *prev;
+    while (slow != NULL && fast != NULL && fast->next !=NULL){
+        slow = slow->next;
+        fast = fast->next->next;
+        prev = slow;
+        if(slow == fast){
+            prev->next = NULL;
+            return;
+        }
+    }
+}
+
+//P9
+//https://practice.geeksforgeeks.org/problems/rotate-a-linked-list/1/?ref=self
+//https://www.geeksforgeeks.org/rotate-a-linked-list/
+void rotate(struct node **head_ref, int k)
+{
+	if (k == 0 || *head_ref == NULL) return;
+	int i = 1;
+	node *current = *head_ref;
+	node *kthNode;
+	
+	while(current != NULL && i < k){
+	    i++;
+	    current = current->next;
+	}
+	if (current == NULL) return;
+	kthNode = current;
+	while (current->next != NULL)
+		current = current->next;
+	
+	current->next = *head_ref;
+	*head_ref = kthNode->next;
+	kthNode->next = NULL;
+}
+
 int main(){
 	//P1
 	// struct Node* head = NULL;

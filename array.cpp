@@ -142,6 +142,29 @@ bool isTriplet1(int arr[], int n){
 	return false;
 }
 
+//
+bool isPalindromeNum(int n){//1001
+	int reversedInt = 0;
+	int originalInt = n;
+	while(n != 0){
+		int reminder = n % 10;
+		reversedInt = reversedInt * 10 + reminder;
+		n = n/10;
+	}
+	return reversedInt==originalInt? true: false;
+}
+
+bool isPalindromeStr(string s){
+	int low = 0, high = s.size()-1;
+	while(low < high){
+		if(s[low] != s[high])
+			return false;
+		low++;
+		high--;
+	}
+	return true;
+}
+
 int main(){
 	//P1
 	// char str[] = "a!!!b.c.d,e'f,ghi";
@@ -165,7 +188,8 @@ int main(){
 	//isTriplet(arr, arr_size)? cout << "Yes\n": cout << "No\n";
 	//isTriplet1(arr, arr_size)? cout << "Yes\n": cout << "No\n";
 
-
+	cout << isPalindromeStr("isia") << endl;
+	cout << isPalindromeNum(1001) << endl;
 	return 0;
 }
 
