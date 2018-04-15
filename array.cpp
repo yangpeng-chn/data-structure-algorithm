@@ -45,8 +45,6 @@ void reverse(char str[]){
 	}
 }
 
-
-
 //P2
 //https://www.geeksforgeeks.org/count-triplets-with-sum-smaller-that-a-given-value/
 //Given an array of distinct integers and a sum value. Find count of triplets with sum smaller than given sum value. Expected Time Complexity is O(n^2).
@@ -165,6 +163,62 @@ bool isPalindromeStr(string s){
 	return true;
 }
 
+//https://www.geeksforgeeks.org/largest-sum-contiguous-subarray/
+int maxSubArraySum(int a[], int size)
+{
+    int max_so_far = INT_MIN, max_ending_here = 0;
+ 
+    for (int i = 0; i < size; i++)
+    {
+        max_ending_here = max_ending_here + a[i];
+        if (max_so_far < max_ending_here)
+            max_so_far = max_ending_here;
+ 
+        if (max_ending_here < 0)
+            max_ending_here = 0;
+    }
+    return max_so_far;
+}
+
+//https://www.geeksforgeeks.org/find-subarray-with-given-sum/
+//http://www.techiedelight.com/find-subarray-having-given-sum-given-array/
+int subArraySum(int arr[], int n, int sum)
+{
+    /* Initialize curr_sum as value of first element
+       and starting point as 0 */
+    int curr_sum = arr[0], start = 0, i;
+ 
+    /* Add elements one by one to curr_sum and if the curr_sum exceeds the
+       sum, then remove starting element */
+    for (i = 1; i <= n; i++)
+    {
+        // If curr_sum exceeds the sum, then remove the starting elements
+        while (curr_sum > sum && start < i-1)
+        {
+            curr_sum = curr_sum - arr[start];
+            start++;
+        }
+ 
+        // If curr_sum becomes equal to sum, then return true
+        if (curr_sum == sum)
+        {
+            printf ("Sum found between indexes %d and %d", start, i-1);
+            return 1;
+        }
+ 
+        // Add this element to curr_sum
+        if (i < n)
+          curr_sum = curr_sum + arr[i];
+    }
+ 
+    // If we reach here, then no subarray
+    printf("No subarray found");
+    return 0;
+}
+
+void changeme(int arr[], int n){
+	arr[0] = 10;
+}
 int main(){
 	//P1
 	// char str[] = "a!!!b.c.d,e'f,ghi";
@@ -190,6 +244,10 @@ int main(){
 
 	cout << isPalindromeStr("isia") << endl;
 	cout << isPalindromeNum(1001) << endl;
+
+	int a[] = {1,2,3};
+	changeme(a, 3);
+	cout <<a[0];
 	return 0;
 }
 

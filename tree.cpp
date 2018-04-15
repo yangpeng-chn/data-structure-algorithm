@@ -89,6 +89,18 @@ void leftView(Node *root)
     leftViewHelper(root, 1, &maxLevel);
 }
 
+//https://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/
+bool isBSTUtil(Node *root, int min, int max){// allow duplicate
+    if (root == NULL) return true;
+    return (root->data >= min && root->data <= max
+    && isBSTUtil(root->left, min, root->data)
+    && isBSTUtil(root->right, root->data, max));
+}
+
+bool isBST(Node* root) {
+    return isBSTUtil(root, INT_MIN, INT_MAX);
+}
+
 
 int main(){
 	return 0;
