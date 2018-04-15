@@ -1,6 +1,22 @@
 #include<iostream>
 using namespace std;
 
+/*
+Selection Sort, 
+Bubble Sort, 
+Insertion Sort, 
+Merge Sort, 
+Heap Sort, 
+QuickSort, 
+Radix Sort, 
+Counting Sort, 
+Bucket Sort, 
+ShellSort, 
+Comb Sort, 
+Pigeonhole Sort, 
+Cycle Sort
+*/
+
 void printArray(int A[], int size)
 {
     int i;
@@ -14,6 +30,10 @@ void swap(int* a, int* b)
     int t = *a;
     *a = *b;
     *b = t;
+}
+
+void selectionSort(int arr[], int n){
+    
 }
 
 
