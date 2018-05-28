@@ -1,3 +1,5 @@
+//https://www.geeksforgeeks.org/must-do-coding-questions-for-companies-like-amazon-microsoft-adobe/
+
 #include "iostream"
 #include <cstring>
 
@@ -20,6 +22,25 @@ void swap(int *a, int *b){
 	*a = *b;
 	*b = tmp;
 }
+
+//1. Kadane’s Algorithm
+//https://www.geeksforgeeks.org/largest-sum-contiguous-subarray/
+int maxSubArraySum(int a[], int size)
+{
+    int max_so_far = INT_MIN, max_ending_here = 0;
+ 
+    for (int i = 0; i < size; i++)
+    {
+        max_ending_here = max_ending_here + a[i];
+        if (max_so_far < max_ending_here)
+            max_so_far = max_ending_here;
+ 
+        if (max_ending_here < 0)
+            max_ending_here = 0;
+    }
+    return max_so_far;
+}
+
 
 //P1
 //https://www.geeksforgeeks.org/reverse-an-array-without-affecting-special-characters/
@@ -163,22 +184,7 @@ bool isPalindromeStr(string s){
 	return true;
 }
 
-//https://www.geeksforgeeks.org/largest-sum-contiguous-subarray/
-int maxSubArraySum(int a[], int size)
-{
-    int max_so_far = INT_MIN, max_ending_here = 0;
- 
-    for (int i = 0; i < size; i++)
-    {
-        max_ending_here = max_ending_here + a[i];
-        if (max_so_far < max_ending_here)
-            max_so_far = max_ending_here;
- 
-        if (max_ending_here < 0)
-            max_ending_here = 0;
-    }
-    return max_so_far;
-}
+
 
 //https://www.geeksforgeeks.org/find-subarray-with-given-sum/
 //http://www.techiedelight.com/find-subarray-having-given-sum-given-array/
