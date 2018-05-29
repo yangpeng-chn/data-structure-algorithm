@@ -1,4 +1,12 @@
 //https://www.geeksforgeeks.org/must-do-coding-questions-for-companies-like-amazon-microsoft-adobe/
+/*
+maxSubArraySum (kadane's algorithm)
+reverse an array without affecting special characters
+countTriplets
+zigZag
+find pythagorean triplet (2 variations)
+is Palindrome (2 variations, int and string)
+*/
 
 #include "iostream"
 #include <cstring>
