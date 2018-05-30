@@ -6,6 +6,7 @@ countTriplets
 zigZag
 find pythagorean triplet (2 variations)
 is Palindrome (2 variations, int and string)
+find subarry with given sum (No nagative numbers, 2 variations, good and bad)
 */
 
 #include "iostream"
@@ -193,46 +194,69 @@ bool isPalindromeStr(string s){
 }
 
 
-
 //https://www.geeksforgeeks.org/find-subarray-with-given-sum/
 //http://www.techiedelight.com/find-subarray-having-given-sum-given-array/
-int subArraySum(int arr[], int n, int sum)
-{
-    /* Initialize curr_sum as value of first element
-       and starting point as 0 */
-    int curr_sum = arr[0], start = 0, i;
- 
-    /* Add elements one by one to curr_sum and if the curr_sum exceeds the
-       sum, then remove starting element */
-    for (i = 1; i <= n; i++)
-    {
-        // If curr_sum exceeds the sum, then remove the starting elements
-        while (curr_sum > sum && start < i-1)
-        {
-            curr_sum = curr_sum - arr[start];
-            start++;
-        }
- 
-        // If curr_sum becomes equal to sum, then return true
-        if (curr_sum == sum)
-        {
-            printf ("Sum found between indexes %d and %d", start, i-1);
-            return 1;
-        }
- 
-        // Add this element to curr_sum
-        if (i < n)
-          curr_sum = curr_sum + arr[i];
+//http://blog.gainlo.co/index.php/2016/06/01/subarray-with-given-sum/
+void subArraySumGood(int a[], int n, int sum){ // O(n)
+	int currentSum = 0, start = 1;
+	for (int i = 0; i < n; ++i)
+	{
+		currentSum += a[i];
+		while(currentSum > sum && start < n+1){
+			currentSum = currentSum - a[start - 1];
+			start++;
+		}
+		if (currentSum == sum)
+		{
+			cout << start << " " << i+1 << endl;
+			return;
+		}
+	}
+	cout << -1 << endl;
+	return;
+}
+
+void subArraySumBad(int a[], int n, int sum){ // O(n^2)
+	int currentSum = 0;
+	for (int i = 0; i < n; ++i)
+	{
+		for (int j = i; j < n; ++j)
+		{
+			currentSum += a[j];
+			if (currentSum == sum)
+			{
+				cout << i+1 << " " << j+1 << endl;
+				return;
+			}
+			if (currentSum > sum){
+				currentSum = 0;
+				break;
+			}
+		}
+	}
+
+	cout << -1 << endl;
+	return;
+}
+
+//https://practice.geeksforgeeks.org/problems/missing-number-in-array
+int missingNum(int a[], int n){
+    int expectedSum = 0;
+    for (int i = 1; i < n+2; i++){
+        expectedSum += i;
     }
- 
-    // If we reach here, then no subarray
-    printf("No subarray found");
-    return 0;
+	int sum = 0;
+	for (int i = 0; i < n; ++i)
+	{
+		sum += a[i];
+	}
+	return expectedSum - sum;
 }
 
 void changeme(int arr[], int n){
 	arr[0] = 10;
 }
+
 int main(){
 	//P1
 	// char str[] = "a!!!b.c.d,e'f,ghi";

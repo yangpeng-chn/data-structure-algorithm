@@ -35,12 +35,15 @@ void byref1(int (&a)[4]){
 	cout << "&a in byref1: " << &a << endl;
 }
 
+
+
 int main(){
-	int a[] = {1,2,3,4};
-	cout << "&a[0] in main: " << &a[0] << endl;
-	cout << "a in main: " << a << endl;
-	cout << "&a in main: " << &a << endl;
-	print(a, 4);
+	int a[] = {1,-2,3,-4};
+	cout << maxSubArraySum(a, sizeof(a)/sizeof(a[0]));
+	// cout << "&a[0] in main: " << &a[0] << endl;
+	// cout << "a in main: " << a << endl;
+	// cout << "&a in main: " << &a << endl;
+	// print(a, 4);
 	// cout << "a[0]: " << a[0] << endl;
 	// cout << "a: " << a << endl;
 	// cout << "&a: " << &a << endl;
@@ -50,16 +53,16 @@ int main(){
 	// cout << "&b: " << &b << endl;
 	// cout << "&c: " << &c << endl;
 
-	int d = 4;
-	int arr[d];
-	arr[0] = 4;
-	arr[1] = 3;
-	arr[2] = 2;
-	arr[3] = 1;
-	test(a, 4);
+	// int d = 4;
+	// int arr[d];
+	// arr[0] = 4;
+	// arr[1] = 3;
+	// arr[2] = 2;
+	// arr[3] = 1;
+	// test(a, 4);
 
-	int x[4] = {1,2,3,4};
-  byref1(a);
+	// int x[4] = {1,2,3,4};
+ //  	byref1(a);
 
 	// const int MAX = 4;
 	// const char *names[MAX] = { "Zara Ali", "Hina Ali", "Nuha Ali", "Sara Ali" };
