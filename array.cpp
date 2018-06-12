@@ -7,10 +7,10 @@ zigZag
 find pythagorean triplet (2 variations)
 is Palindrome (2 variations, int and string)
 find subarry with given sum (No nagative numbers, 2 variations, good and bad)
+Merge two arrays
 */
 
 #include "iostream"
-#include <cstring>
 
 using namespace std;
 
@@ -253,9 +253,41 @@ int missingNum(int a[], int n){
 	return expectedSum - sum;
 }
 
+//merge two arrays
+int *mergeArrays(int a[], int b[], int m, int n){
+    if ( m == 0 && n == 0 ) return NULL;
+    int *result = new int[m+n];
+    if (result == NULL) {return NULL;}
+    
+    int i = 0, j = 0, k = 0;
+    while(i < m && j < n){
+        if (a[i] > b[j]){
+            result[k] = a[i];
+            i++;
+        }else{
+            result[k] = b[j];
+            j++;
+        }
+        k++;
+    }
+    while(i < m){
+        result[k] = a[i];
+        i++;
+        k++;
+    }
+    while(j < n){
+        result[k] = b[j];
+        j++;
+        k++;
+    } 
+    return result;
+}
+
 void changeme(int arr[], int n){
 	arr[0] = 10;
 }
+
+
 
 int main(){
 	//P1
@@ -280,12 +312,12 @@ int main(){
 	//isTriplet(arr, arr_size)? cout << "Yes\n": cout << "No\n";
 	//isTriplet1(arr, arr_size)? cout << "Yes\n": cout << "No\n";
 
-	cout << isPalindromeStr("isia") << endl;
-	cout << isPalindromeNum(1001) << endl;
+	// cout << isPalindromeStr("isia") << endl;
+	// cout << isPalindromeNum(1001) << endl;
 
-	int a[] = {1,2,3};
-	changeme(a, 3);
-	cout <<a[0];
+	// int a[] = {1,2,3};
+	// changeme(a, 3);
+	// cout <<a[0];
 	return 0;
 }
 
