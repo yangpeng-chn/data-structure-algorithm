@@ -32,11 +32,20 @@ void swap(int* a, int* b)
     *b = t;
 }
 
+//https://www.geeksforgeeks.org/selection-sort/
 void selectionSort(int arr[], int n){
-    
+    for (int i = 0; i < n-1; ++i)
+    {
+        int minIdx = i;
+        for (int j = i+i; j < n; ++j){
+            if (arr[j] < arr[minIdx])
+                minIdx = j;
+        }
+        swap(&arr[i], &arr[minIdx]);
+    }
 }
 
-
+//https://www.geeksforgeeks.org/bubble-sort/
 void bubbleSort(int arr[], int n){
     for (int i = 0; i < n; ++i)
     {
@@ -48,6 +57,20 @@ void bubbleSort(int arr[], int n){
     }
 }
 
+//https://www.geeksforgeeks.org/insertion-sort/
+//https://www.youtube.com/watch?v=i-SKeOcBwko&index=4&list=PL2_aWCzGMAwKedT2KfDMB9YA5DgASZb3U
+void insertionSort(int arr[], int n){
+    for (int i = 1; i < n; ++i)
+    {
+        int v = arr[i];
+        int hole = i;
+        while(hole > 0 && arr[hole-1] > v){
+            arr[hole] = arr[hole-1];
+            hole = hole-1;
+        }
+        arr[hole] = v;
+    }
+}
 // Merges two subarrays of arr[].
 // First subarray is arr[l..m]
 // Second subarray is arr[m+1..r]
@@ -183,7 +206,9 @@ int main()
     // quickSort(arr, 0, size-1);
     // mergeSort(arr, 0, size - 1);
     // bubbleSort(arr, size);
-    heapSort(arr, size);
+    // heapSort(arr, size);
+    // selectionSort(arr, size);
+    insertionSort(arr, size);
     printf("\nSorted array is \n");
     printArray(arr, size);
     return 0;
