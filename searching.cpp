@@ -18,7 +18,7 @@ int linearSearch(int arr[], int n, int v){
 	return -1;
 }
 
-// why use l + (r-l)/2 instead of (l+r)/2. 
+// use l + (r-l)/2 instead of (l+r)/2 to prevent overflow
 // https://stackoverflow.com/questions/27167943/why-leftright-left-2-will-not-overflow
 // https://www.geeksforgeeks.org/binary-search/
 int binarySearchRec(int arr[], int l, int r, int v){

@@ -1,4 +1,14 @@
-/* Program to insert in a sorted list */
+/*
+create node
+traverse binary tree with width first (levelOrder)
+traverse binary tree with depth first (3 variations)
+insert node to BST (2 variations, iterative and recursion)
+Find height of a binary tree
+print left view of binary tree
+check if it BST
+max depth
+
+*/
 #include<iostream>
 using namespace std;
  
@@ -17,15 +27,56 @@ Node* newNode(int value){
     return n;
 }
 
+//traverse binary tree with levelOrder (use queue)
+void levelOrder (Node *root){ //Time, O(n), Space: O(1)(only has left child) -best, O(n) -worst, avg
+    if (root == NULL) return;
+    queue<Node *> Q;
+    Q.push(root);
+    while(!Q.empty()){
+        Node *current = Q.front();
+        cout << current->data<<“ ”;
+        if(current->left != NULL) Q.push(current->left);
+        if(current->right != NULL) Q.push(current->right);
+        Q.pop();
+    }
+}
+
+void preorder (Node *root){ // Time: O(n)
+    if(root == NULL) return;
+    cout << root->data;
+    preorder(root->left);
+    preorder(root->right);
+}
+
+void inorder (Node *root){ // Time: O(n)
+    if(root == NULL) return;
+    inorder(root->left);
+    cout << root->data;
+    inorder(root->right);
+}
+
+void postorder (Node *root){ // Time: O(n)
+    if(root == NULL) return;
+    postorder(root->left);
+    postorder(root->right);
+    cout << root->data;
+}
+
 //insert node to BST
 Node * insert(Node * root, int value) {
-   if (root == NULL) return newNode(value);
-    if(value < root->data){
-        root->left = insert(root->left, value);
-    }else{
-        root->right = insert(root->right, value);
+{
+    if(root == NULL) {
+        Node *newNode =  new Node;
+        newNode->left = newNode->right = NULL;
+        newNode->data = data;
+        return newNode;
     }
-   return root;
+    if(data > root->data){
+        root->right = insert(root->right, data);
+    }else if (data < root->data){
+        root->left = insert(root->left, data);
+    }
+    return root;
 }
 
 // Insert node to BST
@@ -57,20 +108,12 @@ Node * insert(Node * root, int value) {
     return root;
 }
 
-Node * insert1(Node * root, int value) {
-{
-    if(root == NULL) {
-        Node *newNode =  new Node;
-        newNode->left = newNode->right = NULL;
-        newNode->data = data;
-        return newNode;
-    }
-    if(data > root->data){
-        root->right = insert(root->right, data);
-    }else if (data < root->data){
-        root->left = insert(root->left, data);
-    }
-    return root;
+//Find height of a binary tree
+int findHeight(Node *root){
+    if (root == NULL) return -1;
+    leftHeight = FindHeight(root->left);
+    rightHeight = FindHeight(root->right);
+    return max(leftHeight, rightHeight) + 1;
 }
 
 //https://www.geeksforgeeks.org/print-left-view-binary-tree/
@@ -89,6 +132,34 @@ void leftView(Node *root)
     leftViewHelper(root, 1, &maxLevel);
 }
 
+//https://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/
+bool isBSTUtil(Node *root, int min, int max){// allow duplicate
+    if (root == NULL) return true;
+    return (root->data >= min && root->data <= max
+    && isBSTUtil(root->left, min, root->data)
+    && isBSTUtil(root->right, root->data, max));
+}
+
+bool isBST(Node* root) {
+    return isBSTUtil(root, INT_MIN, INT_MAX);
+}
+
+int maxDepth(Node* node)  
+{
+   if (node==NULL) 
+       return 0;
+   else
+   {
+       /* compute the depth of each subtree */
+       int lDepth = maxDepth(node->left);
+       int rDepth = maxDepth(node->right);
+ 
+       /* use the larger one */
+       if (lDepth > rDepth) 
+           return(lDepth+1);
+       else return(rDepth+1);
+   }
+} 
 
 int main(){
 	return 0;

@@ -1,20 +1,77 @@
-/* Program to insert in a sorted list */
+/* Linked list problems
+createNode
+printList (4 variations)
+insert element in a sorted linked list
+deleteNode (2 variations)
+compare if two linked list are equal
+merge two linked list
+get middle element
+reverse linked list (3 variations) (Iterative and recursion methods)
+detect loop
+remove the loop
+rotate a linked list
+delete list
+insert node at beginning (two variations)
+insert a node at Nth position, n counts from 1
+delete a node at Nth position, n counts from 1
+*/
+
+/* notes
+in c++, keyworkd "struct" can be omitted when define a node, but not in c
+*/
+
 #include<iostream>
 using namespace std;
  
 /* Link list node */
 struct Node
 {
-    int data;
-    struct Node* next;
+    int data; // 4 bytes
+    struct Node* next; // 4 bytes
 };
 
 struct Node* newNode(int value){
 	struct Node *node = new Node;
+	// or in C: struct Node* node = (Node*)malloc(sizeof(Node)); 
 	node->data = value;
 	node->next = NULL;
 	return node;
 }
+
+void Print() //Insert using global variable. Node* head;
+{
+	struct Node* temp = head; // we don’t want to change the address of head, so need to use temp
+	while(temp != NULL)
+	{
+		printf(“ %d”, temp->data); // scanf(“%d”, &n)
+		temp = temp->next;
+	}
+	printf(“\n”);
+}
+
+void Print(struct Node* head) //print using parameter
+{
+	while(head != NULL)
+	{
+		printf(“ %d”, head->data);
+		head = head->next;
+	}
+	printf(“\n”);
+}
+void PrintUsingRecursion(struct Node* p)
+{
+	if (p == NULL) return;
+	printf("%d ", head->data);
+	PrintUsingRecursion(p->next);
+}
+//1,2,3,4 => 4,3,2,1
+void ReversePrintUsingRecursion(struct Node* p)
+{
+	if (p == NULL) return;
+	ReversePrintUsingRecursion(p->next);
+	printf("%d ", head->data);
+}
+
 
 void printList(struct Node *node){
 	while(node != NULL){
@@ -74,6 +131,33 @@ void deleteNode(struct Node *head, struct Node *n){
 	}
 }
 
+bool deleteElement(Node **head, Node *deleteMe )
+{
+    Node *elem;
+
+    if (!head || !*head || !deleteMe ) /* Check for null pointers */
+        return false;
+
+    elem = *head;
+    if( deleteMe == *head ){ /* special case for head */
+        *head = elem->next;
+        free(deleteMe);
+        return true;
+    }
+
+    while( elem ){
+        if( elem->next == deleteMe ){
+            /* elem is element preceding deleteMe */
+            elem->next = deleteMe->next;
+            free(deleteMe);
+            return true;
+        }
+        elem = elem->next;
+    }
+    /* deleteMe not found */
+    return false;
+}
+
 //P3
 //https://www.geeksforgeeks.org/compare-two-strings-represented-as-linked-lists/
 int compare(Node *list1, Node *list2) {
@@ -97,7 +181,7 @@ int compare(Node *list1, Node *list2) {
 
 //P4
 //https://www.geeksforgeeks.org/merge-a-linked-list-into-another-linked-list-at-alternate-positions/
-void merge(struct Node *p, struct Node **q){
+void merge(Node *p, Node **q){
 	Node *currentP = p, *currentQ = *q;
 	Node *nextP, *nextQ;
 	while(currentP != NULL && currentQ != NULL){
@@ -145,6 +229,36 @@ Node* reverse(Node *head)
   // Your code here
 }
 
+void reverse() // or void Reverse(struct Node** pointerToHead)
+{
+	struct Node *current, *prev, *next;
+	current = head; // or current = *pointerToHead
+	prev = NULL;
+	while(current != NULL)
+	{
+		next = current->next;
+		current->next = prev;
+		prev = current;
+		current = next;
+	}
+	//current, next are NULL now
+	head = prev; // or *pointerToHead = prev
+}
+void reserveUsingRecursion(struct Node* p) // important
+{
+	if (p->next == NULL) //last element
+	{
+		head = p;
+		return;
+	}
+	ReserveUsingRecursion(p->next);
+	struct Node* q = p->next;
+	q->next = p; 
+	// above two lines equal to: p->next->next = p
+	p->next = NULL;
+}
+
+
 //P7
 //https://practice.geeksforgeeks.org/problems/detect-loop-in-linked-list/1/?ref=self
 //https://www.geeksforgeeks.org/detect-loop-in-a-linked-list/
@@ -181,7 +295,7 @@ void removeTheLoop(Node *node)
 //P9
 //https://practice.geeksforgeeks.org/problems/rotate-a-linked-list/1/?ref=self
 //https://www.geeksforgeeks.org/rotate-a-linked-list/
-void rotate(struct node **head_ref, int k)
+void rotate(node **head_ref, int k)
 {
 	if (k == 0 || *head_ref == NULL) return;
 	int i = 1;
@@ -200,6 +314,76 @@ void rotate(struct node **head_ref, int k)
 	current->next = *head_ref;
 	*head_ref = kthNode->next;
 	kthNode->next = NULL;
+}
+
+//P10
+void deleteList( struct node **head )
+{
+    node *deleteMe = *head;
+
+    while( deleteMe ){
+        node *next = deleteMe->next;
+        free(deleteMe);
+        deleteMe = next;
+    }
+
+    *head = NULL;
+}
+
+void Insert(int x) //Insert using global variable. Node* head;
+{
+	struct Node* temp = (Node*)malloc(sizeof(Node)); // or new Node(); in C++
+	temp->data = x;
+	temp->next = NULL;
+	if(head != NULL) temp->next = head;
+	head = temp;
+}
+void Insert(struct Node** pointerToHead, int x) // insert using parameter
+{
+	struct Node* temp = (Node*)malloc(sizeof(Node)); // or new Node(); in C++
+	temp->data = x;
+	temp->next = NULL;
+	if(*pointerToHead != NULL) temp->next = *pointerToHead;
+	*pointerToHead = temp;
+}
+//struct Node* head = NULL;
+//Insert(&head, 2);
+
+//1,2,3,4 Insert(5, 3) = > 1,2,5,3,4
+void Insert(int data, int n) //or void Insert(struct Node** *pointerToHead, int data, int n)
+{
+	struct Node* temp1 = (Node*)malloc(sizeof(struct Node)); // or new Node(); in C++
+	temp1->data = data;
+	temp1->next = NULL;
+	if (n == 1){ // works even if head is empty
+		temp1->next = head; // or temp1->next = *pointerToHead;
+		head = temp1; // or *pointerToHead = temp1;
+		return;
+	}
+	struct Node* temp2 = head; // or struct Node*temp2 = *pointerToHead;
+	for (int i = 0; i < n - 2; i++){ // find the previous position of n, set temp2 to element 2
+		temp2 = temp2->next; 
+	}
+	temp1->next = temp2->next; // temp2->next is element 4
+	temp2->next = temp1; // set new node as next element of element 2
+}
+
+// 1,2,3,4 Delete(3) => 1,2,4
+void Delete(int n) // or void Delete(struct Node** *pointerToHead, int n)
+{
+	struct Node* temp1 = head; // or struct Node* temp1 = *pointerToHead
+	if (n == 1){
+		head = temp1->next; // head now points to the second node, or *pointerToHead = temp1->next;
+		free(temp1); // or delete temp1; in C++
+		return;
+	}
+	int i = 0;
+	for (int i = 0; i < n - 2; i++){ // temp1 points to n-1 th node, element 2
+		temp1 = temp1->next; 
+	}
+	struct Node* temp2 = temp1->next;
+	temp1->next = temp2->next;
+	free(temp2); // or delete temp2; in C++
 }
 
 int main(){
