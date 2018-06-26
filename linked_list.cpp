@@ -4,7 +4,7 @@ printList (4 variations)
 insert element in a sorted linked list
 deleteNode (2 variations)
 compare if two linked list are equal
-merge two linked list
+merge two linked list, iterative and resursive
 get middle element
 reverse linked list (3 variations) (Iterative and recursion methods)
 detect loop
@@ -193,6 +193,18 @@ void merge(Node *p, Node **q){
 		currentQ = nextQ;
 	}
 	*q=currentQ;
+}
+
+Node* mergeWithRec(Node* p, Node* q){
+	if(p == NULL) return q;
+	if(q == NULL) return p;
+	if(p->data < q->data){
+		p->next = mergeWithRec(p->next, q);
+		return p;
+	}else{
+		q->next = mergeWithRec(p, q->next);
+		return q;
+	}
 }
 
 //P5
