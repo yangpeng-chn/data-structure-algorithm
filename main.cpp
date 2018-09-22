@@ -35,11 +35,17 @@ void byref1(int (&a)[4]){
 	cout << "&a in byref1: " << &a << endl;
 }
 
-
+void show_mem_rep(char *start, int n) 
+{
+    int i;
+    for (i = 0; i < n; i++)
+         printf(" %.2x", start[i]);
+    printf("\n");
+}
 
 int main(){
-	int a[] = {1,-2,3,-4};
-	cout << maxSubArraySum(a, sizeof(a)/sizeof(a[0]));
+	// int a[] = {1,-2,3,-4};
+	// cout << maxSubArraySum(a, sizeof(a)/sizeof(a[0]));
 	// cout << "&a[0] in main: " << &a[0] << endl;
 	// cout << "a in main: " << a << endl;
 	// cout << "&a in main: " << &a << endl;
@@ -71,6 +77,25 @@ int main(){
  //      cout << "Value of names[" << i << "] = ";
  //      cout << *(names + i) << endl;
  //   }
-	
+
+	// int a = -2147483647;
+	// cout << -2147483647 - 1U << endl;
+	// cout << (-2147483647 - 1U < 2147483647) << endl;
+
+	// unsigned a = 1;
+	// cout << 0-a << endl;
+
+	// int i = 0x01234567;
+ //    show_mem_rep((char *)&i, sizeof(i));
+ //    getchar();
+
+    int a = 2147483648;
+    unsigned int b = a;
+    cout << a << endl; //-2147483648
+    cout << b << endl; //2147483648
+
+    int x = -2147483648;
+    cout << x - 1 << endl; //2147483647
+
 	return 0;
 }
