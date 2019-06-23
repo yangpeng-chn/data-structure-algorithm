@@ -21,13 +21,16 @@ in c++, keyworkd "struct" can be omitted when define a node, but not in c
 */
 
 #include<iostream>
+#include<vector>
+#include<queue>
 using namespace std;
  
-/* Link list node */
+/* Link list Node */
 struct Node
 {
     int data; // 4 bytes
     struct Node* next; // 4 bytes
+    // Node(int val){data = val};
 };
 
 struct Node* newNode(int value){
@@ -38,25 +41,27 @@ struct Node* newNode(int value){
 	return node;
 }
 
+Node* head;
+
 void Print() //Insert using global variable. Node* head;
 {
 	struct Node* temp = head; // we don’t want to change the address of head, so need to use temp
 	while(temp != NULL)
 	{
-		printf(“ %d”, temp->data); // scanf(“%d”, &n)
+		printf(" %d", temp->data); // scanf("%d", &n)
 		temp = temp->next;
 	}
-	printf(“\n”);
+	printf("\n");
 }
 
 void Print(struct Node* head) //print using parameter
 {
 	while(head != NULL)
 	{
-		printf(“ %d”, head->data);
+		printf(" %d", head->data);
 		head = head->next;
 	}
-	printf(“\n”);
+	printf("\n");
 }
 void PrintUsingRecursion(struct Node* p)
 {
@@ -263,7 +268,7 @@ void reserveUsingRecursion(struct Node* p) // important
 		head = p;
 		return;
 	}
-	ReserveUsingRecursion(p->next);
+	reserveUsingRecursion(p->next);
 	struct Node* q = p->next;
 	q->next = p; 
 	// above two lines equal to: p->next->next = p
@@ -307,12 +312,12 @@ void removeTheLoop(Node *node)
 //P9
 //https://practice.geeksforgeeks.org/problems/rotate-a-linked-list/1/?ref=self
 //https://www.geeksforgeeks.org/rotate-a-linked-list/
-void rotate(node **head_ref, int k)
+void rotate(Node **head_ref, int k)
 {
 	if (k == 0 || *head_ref == NULL) return;
 	int i = 1;
-	node *current = *head_ref;
-	node *kthNode;
+	Node *current = *head_ref;
+	Node *kthNode;
 	
 	while(current != NULL && i < k){
 	    i++;
@@ -329,12 +334,12 @@ void rotate(node **head_ref, int k)
 }
 
 //P10
-void deleteList( struct node **head )
+void deleteList( struct Node **head )
 {
-    node *deleteMe = *head;
+    Node *deleteMe = *head;
 
     while( deleteMe ){
-        node *next = deleteMe->next;
+        Node *next = deleteMe->next;
         free(deleteMe);
         deleteMe = next;
     }
@@ -362,7 +367,7 @@ void Insert(struct Node** pointerToHead, int x) // insert using parameter
 //Insert(&head, 2);
 
 //1,2,3,4 Insert(5, 3) = > 1,2,5,3,4
-void Insert(int data, int n) //or void Insert(struct Node** *pointerToHead, int data, int n)
+void Insert(int data, int n) //or void Insert(struct Node** pointerToHead, int data, int n)
 {
 	struct Node* temp1 = (Node*)malloc(sizeof(struct Node)); // or new Node(); in C++
 	temp1->data = data;
@@ -396,6 +401,47 @@ void Delete(int n) // or void Delete(struct Node** *pointerToHead, int n)
 	struct Node* temp2 = temp1->next;
 	temp1->next = temp2->next;
 	free(temp2); // or delete temp2; in C++
+}
+
+Node* mergeKLists(vector<Node*>& lists) {
+    auto comp = [](Node* a, Node* b) { return a->data > b->data; };
+    priority_queue<Node*, vector<Node*>, decltype(comp)> pq(comp);
+    Node dummy;
+    Node *cur = &dummy;
+    for(Node *list : lists){
+        if(list) pq.push(list);
+    }
+    while(!pq.empty()){
+        cur->next = pq.top();
+        pq.pop();
+        cur = cur->next;
+        if(cur->next) //cur won't be nulltpr as cur is the element poped from the queue which is always non-nullptr, so we only need to check if its next is nullptr
+            pq.push(cur->next);
+    }
+    return dummy.next;
+}
+
+int kthSmallest(vector<Node*>& lists, int k){
+	auto comp = [](Node* a, Node* b) { return a->data > b->data; };
+    priority_queue<Node*, vector<Node*>, decltype(comp)> pq(comp);
+    Node dummy;
+    Node *cur = &dummy;
+    for(Node *list : lists){
+        if(list) pq.push(list);
+    }
+    int count = 0;
+    while(!pq.empty() && count < k){
+        cur->next = pq.top();
+        count++;
+        if(count == k)
+        	return cur->next->data;
+        pq.pop();
+        cur = cur->next;
+        
+        if(cur->next) //cur won't be nulltpr as cur is the element poped from the queue which is always non-nullptr, so we only need to check if its next is nullptr
+            pq.push(cur->next);
+    }
+    return 0;
 }
 
 int main(){
@@ -453,6 +499,22 @@ int main(){
 	// merge(list1, &list2);
 	// printList(list1);
 	// printList(list2);
+
 	
+	Node *list1, *list2, *list3;
+	list1 = newNode(1);
+	list1->next = newNode(3);
+	list2 = newNode(2);
+	list2->next = newNode(4);
+	list2->next->next = newNode(6);
+	list3 = newNode(0);
+	list3->next = newNode(9);
+	list3->next->next = newNode(10);
+	list3->next->next->next = newNode(11);
+	vector<Node*>lists{list1, list2, list3};
+	// Node* list = mergeKLists(lists);
+	// printList(list);
+
+	cout << kthSmallest(lists, 5) << endl;
 	return 0;
 }
