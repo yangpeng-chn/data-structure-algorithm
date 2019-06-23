@@ -208,7 +208,7 @@ int main()
     // bubbleSort(arr, size);
     // heapSort(arr, size);
     // selectionSort(arr, size);
-    insertionSort(arr, size);
+    bubbleSort1(arr, size);
     printf("\nSorted array is \n");
     printArray(arr, size);
     return 0;

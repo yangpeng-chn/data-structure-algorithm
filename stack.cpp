@@ -4,21 +4,21 @@
 using namespace std;
 
 void printStr(char str[]){
-	cout << str << endl;
+    cout << str << endl;
 }
 
 void printInt(int arr[], int n){
-	for (int i = 0; i < n; ++i)
-	{
-		cout << arr[i] << " ";
-	}
-	cout << endl;
+    for (int i = 0; i < n; ++i)
+    {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
 }
 
 void swap(int *a, int *b){
-	int tmp = *a;
-	*a = *b;
-	*b = tmp;
+    int tmp = *a;
+    *a = *b;
+    *b = tmp;
 }
 
 string isBalanced(string s) {

@@ -21,7 +21,7 @@ struct Node
 };
 
 Node* newNode(int value){
-	node *n = new Node;
+    node *n = new Node;
     n->left = n->right = NULL;
     n->data = value;
     return n;
@@ -63,7 +63,7 @@ void postorder (Node *root){ // Time: O(n)
 }
 
 //insert node to BST
-Node * insert(Node * root, int value) {
+Node * insert(Node * root, int data) {
 {
     if(root == NULL) {
         Node *newNode =  new Node;
@@ -82,7 +82,7 @@ Node * insert(Node * root, int value) {
 // Insert node to BST
 // https://www.geeksforgeeks.org/binary-search-tree-set-1-search-and-insertion/
 Node * insert(Node * root, int value) {
-	Node *newNode = new node;
+    Node *newNode = new node;
     newNode->data = value;
     newNode->left = newNode->right = NULL;
     if(root == NULL){
@@ -107,6 +107,54 @@ Node * insert(Node * root, int value) {
     }
     return root;
 }
+
+/* Given a binary search tree and a key, this function deletes the key 
+   and returns the new root */
+struct node* deleteNode(struct node* root, int key) 
+{ 
+    // base case 
+    if (root == NULL) return root; 
+  
+    // If the key to be deleted is smaller than the root's key, 
+    // then it lies in left subtree 
+    if (key < root->key) 
+        root->left = deleteNode(root->left, key); 
+  
+    // If the key to be deleted is greater than the root's key, 
+    // then it lies in right subtree 
+    else if (key > root->key) 
+        root->right = deleteNode(root->right, key); 
+  
+    // if key is same as root's key, then This is the node 
+    // to be deleted 
+    else
+    { 
+        // node with only one child or no child 
+        if (root->left == NULL) 
+        { 
+            struct node *temp = root->right; 
+            free(root); 
+            return temp; 
+        } 
+        else if (root->right == NULL) 
+        { 
+            struct node *temp = root->left; 
+            free(root); 
+            return temp; 
+        } 
+  
+        // node with two children: Get the inorder successor (smallest 
+        // in the right subtree) 
+        struct node* temp = minValueNode(root->right); 
+  
+        // Copy the inorder successor's content to this node 
+        root->key = temp->key; 
+  
+        // Delete the inorder successor 
+        root->right = deleteNode(root->right, temp->key); 
+    } 
+    return root; 
+} 
 
 //Find height of a binary tree
 int findHeight(Node *root){
@@ -146,21 +194,21 @@ bool isBST(Node* root) {
 
 int maxDepth(Node* node)  
 {
-   if (node==NULL) 
-       return 0;
-   else
-   {
-       /* compute the depth of each subtree */
-       int lDepth = maxDepth(node->left);
-       int rDepth = maxDepth(node->right);
- 
-       /* use the larger one */
-       if (lDepth > rDepth) 
-           return(lDepth+1);
-       else return(rDepth+1);
-   }
+    if (node==NULL) 
+        return 0;
+    else
+    {
+        /* compute the depth of each subtree */
+        int lDepth = maxDepth(node->left);
+        int rDepth = maxDepth(node->right);
+    
+        /* use the larger one */
+        if (lDepth > rDepth) 
+            return(lDepth+1);
+        else return(rDepth+1);
+    }
 } 
 
 int main(){
-	return 0;
+    return 0;
 }
