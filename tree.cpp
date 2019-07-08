@@ -10,20 +10,22 @@ max depth
 
 */
 #include<iostream>
+#include<stack>
+#include<queue>
 using namespace std;
  
 /* Link list node */
 struct Node
 {
-    int data;
+    int val;
     Node* left;
     Node* right;
 };
 
 Node* newNode(int value){
-    node *n = new Node;
+    Node *n = new Node;
     n->left = n->right = NULL;
-    n->data = value;
+    n->val = value;
     return n;
 }
 
@@ -34,7 +36,7 @@ void levelOrder (Node *root){ //Time, O(n), Space: O(1)(only has left child) -be
     Q.push(root);
     while(!Q.empty()){
         Node *current = Q.front();
-        cout << current->data<<“ ”;
+        cout << current->val<< " ";
         if(current->left != NULL) Q.push(current->left);
         if(current->right != NULL) Q.push(current->right);
         Q.pop();
@@ -43,7 +45,7 @@ void levelOrder (Node *root){ //Time, O(n), Space: O(1)(only has left child) -be
 
 void preorder (Node *root){ // Time: O(n)
     if(root == NULL) return;
-    cout << root->data;
+    cout << root->val << " ";
     preorder(root->left);
     preorder(root->right);
 }
@@ -51,29 +53,42 @@ void preorder (Node *root){ // Time: O(n)
 void inorder (Node *root){ // Time: O(n)
     if(root == NULL) return;
     inorder(root->left);
-    cout << root->data;
+    cout << root->val << " ";
     inorder(root->right);
+}
+
+void inorderIterative (Node *root){ // Time: O(n)
+    stack<Node*>s;
+    Node *p = root;
+    while(!s.empty() || p){
+        while(p){
+            s.push(p);
+            p = p->left;
+        }
+        p = s.top(); s.pop();
+        cout << p->val << " ";
+        p = p->right;
+    }
 }
 
 void postorder (Node *root){ // Time: O(n)
     if(root == NULL) return;
     postorder(root->left);
     postorder(root->right);
-    cout << root->data;
+    cout << root->val << " ";
 }
 
 //insert node to BST
-Node * insert(Node * root, int data) {
-{
+Node* insert(Node * root, int data) {
     if(root == NULL) {
         Node *newNode =  new Node;
         newNode->left = newNode->right = NULL;
-        newNode->data = data;
+        newNode->val = data;
         return newNode;
     }
-    if(data > root->data){
+    if(data > root->val){
         root->right = insert(root->right, data);
-    }else if (data < root->data){
+    }else if (data < root->val){
         root->left = insert(root->left, data);
     }
     return root;
@@ -81,9 +96,9 @@ Node * insert(Node * root, int data) {
 
 // Insert node to BST
 // https://www.geeksforgeeks.org/binary-search-tree-set-1-search-and-insertion/
-Node * insert(Node * root, int value) {
-    Node *newNode = new node;
-    newNode->data = value;
+Node* insertIterative(Node * root, int value) {
+    Node *newNode = new Node;
+    newNode->val = value;
     newNode->left = newNode->right = NULL;
     if(root == NULL){
        root = newNode;
@@ -94,13 +109,13 @@ Node * insert(Node * root, int value) {
    
     while(nd!=NULL){
         parent = nd;
-        if(value > nd->data){
+        if(value > nd->val){
             nd = nd->right;
         }else{
             nd = nd->left;
         }
     }
-    if(value > parent->data){
+    if(value > parent->val){
         parent->right = newNode;
     }else{
         parent->left = newNode;
@@ -108,21 +123,31 @@ Node * insert(Node * root, int value) {
     return root;
 }
 
+
+Node* minValueNode(Node* node) 
+{ 
+    Node* current = node; 
+  
+    /* loop down to find the leftmost leaf */
+    while (current && current->left != NULL) 
+        current = current->left; 
+  
+    return current; 
+} 
 /* Given a binary search tree and a key, this function deletes the key 
    and returns the new root */
-struct node* deleteNode(struct node* root, int key) 
+Node* deleteNode(Node *root, int key) 
 { 
-    // base case 
     if (root == NULL) return root; 
   
     // If the key to be deleted is smaller than the root's key, 
     // then it lies in left subtree 
-    if (key < root->key) 
+    if (key < root->val) 
         root->left = deleteNode(root->left, key); 
   
     // If the key to be deleted is greater than the root's key, 
     // then it lies in right subtree 
-    else if (key > root->key) 
+    else if (key > root->val) 
         root->right = deleteNode(root->right, key); 
   
     // if key is same as root's key, then This is the node 
@@ -132,26 +157,26 @@ struct node* deleteNode(struct node* root, int key)
         // node with only one child or no child 
         if (root->left == NULL) 
         { 
-            struct node *temp = root->right; 
+            Node *temp = root->right; 
             free(root); 
             return temp; 
         } 
         else if (root->right == NULL) 
         { 
-            struct node *temp = root->left; 
+            Node *temp = root->left; 
             free(root); 
             return temp; 
         } 
   
         // node with two children: Get the inorder successor (smallest 
         // in the right subtree) 
-        struct node* temp = minValueNode(root->right); 
+        Node* temp = minValueNode(root->right); 
   
         // Copy the inorder successor's content to this node 
-        root->key = temp->key; 
+        root->val = temp->val; 
   
         // Delete the inorder successor 
-        root->right = deleteNode(root->right, temp->key); 
+        root->right = deleteNode(root->right, temp->val); 
     } 
     return root; 
 } 
@@ -159,8 +184,8 @@ struct node* deleteNode(struct node* root, int key)
 //Find height of a binary tree
 int findHeight(Node *root){
     if (root == NULL) return -1;
-    leftHeight = FindHeight(root->left);
-    rightHeight = FindHeight(root->right);
+    int leftHeight = findHeight(root->left);
+    int rightHeight = findHeight(root->right);
     return max(leftHeight, rightHeight) + 1;
 }
 
@@ -168,7 +193,7 @@ int findHeight(Node *root){
 void leftViewHelper(Node *root, int level, int *maxLevel){
     if (root == NULL) return;
     if (level > *maxLevel){
-        cout << root->data << " ";
+        cout << root->val << " ";
         *maxLevel = level;
     }
     leftViewHelper(root->left, level+1, maxLevel);
@@ -181,19 +206,17 @@ void leftView(Node *root)
 }
 
 //https://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/
-bool isBSTUtil(Node *root, int min, int max){// allow duplicate
-    if (root == NULL) return true;
-    return (root->data >= min && root->data <= max
-    && isBSTUtil(root->left, min, root->data)
-    && isBSTUtil(root->right, root->data, max));
+bool isValid(Node *node, int *minval, int *maxval){
+    if(node == nullptr) return true;
+    if( (minval && node->val <= *minval) || (maxval && node->val >= *maxval))
+        return false;
+    return isValid(node->left, minval, &node->val) && isValid(node->right, &node->val, maxval);
+}
+bool isValidBST(Node* root) {
+    return isValid(root, nullptr, nullptr);
 }
 
-bool isBST(Node* root) {
-    return isBSTUtil(root, INT_MIN, INT_MAX);
-}
-
-int maxDepth(Node* node)  
-{
+int maxDepth(Node* node){
     if (node==NULL) 
         return 0;
     else
@@ -210,5 +233,11 @@ int maxDepth(Node* node)
 } 
 
 int main(){
+    Node *root = insert(nullptr, 3);
+    root = insert(root, 1);
+    root = insert(root, 2);
+    root = insert(root, 4);
+    root = insert(root, 5);
+    inorderIterative(root);
     return 0;
 }

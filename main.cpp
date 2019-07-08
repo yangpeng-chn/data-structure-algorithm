@@ -18,6 +18,9 @@ using namespace std;
 /*
 g++ main.cpp -std=c++11 -o main; ./main
 */
+int compare(const vector<int>&a, const vector<int>&b){
+        return a[1] < b[1];
+    }
 struct DateStruct
 {
     int year;
@@ -770,5 +773,10 @@ int main(){
     //     cout << vec[i] << endl;
     // }
     
+    // vector<vector<int>> intervals{{2,12},{8,10},{1,3},{15,18}};
+    // sort(intervals.begin(), intervals.end(), compare);
+    // for(auto intv : intervals){
+    //     cout << intv[0] << " " << intv[1] << endl;
+    // }
     return 0;
 }
